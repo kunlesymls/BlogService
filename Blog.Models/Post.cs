@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Blog.Models
 {
@@ -13,12 +14,8 @@ namespace Blog.Models
         public DateTime PostedAt { get; set; }
         public bool IsPosted { get; set; }
         public Author Author { get; set; }
-    }
-
-    public class Tag
-    {
-        public int TagId { get; set; }
-        public string AppId { get; set; }
-        public string Name { get; set; }
+        public ICollection<PostTag> PostTags { get; set; }
+        public ICollection<PostCategory> PostCategories { get; set; }
     }
 }
+
