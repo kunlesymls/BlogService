@@ -1,3 +1,8 @@
+using AutoMapper;
+using Blog.DataAccess;
+using Blog.Infrastructures.Abstractions;
+using Blog.Infrastructures.Concrete;
+using Blog.Models;
 using Blog.UI.Areas.Identity;
 using Blog.UI.Data;
 using Microsoft.AspNetCore.Builder;
@@ -5,15 +10,12 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Blog.Models;
 using System;
-using Microsoft.Extensions.Configuration;
-using Blog.DataAccess;
-using Blog.Infrastructures.Abstractions;
-using Blog.Infrastructures.Concrete;
 using UnifiedLMS.Infrastructure.Abstractions;
+using UnifiedLMS.WebApi.Mapper;
 
 namespace Blog.UI
 {
@@ -73,6 +75,42 @@ namespace Blog.UI
 
             services.AddScoped(typeof(IRepo<>), typeof(Repo<>));
             services.AddScoped(typeof(IGeneralQuery), typeof(GeneralQuery));
+
+            // Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MapProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo
+            //    {
+            //        Version = "v1",
+            //        Title = "Blog API",
+            //        Description = "A Blog Service built with ASP.NET Core Web API",
+            //        TermsOfService = new Uri("https://example.com/license"),
+            //        Contact = new OpenApiContact
+            //        {
+            //            Name = "Joseph Ajileye",
+            //            Email = string.Empty,
+            //            Url = new Uri("https://linkedin.com/in/kunlesymls/"),
+            //        },
+            //        License = new OpenApiLicense
+            //        {
+            //            Name = "No License yet",
+            //            Url = new Uri("https://example.com/license"),
+            //        }
+            //    });
+            //    // Set the comments path for the Swagger JSON and UI.
+            //    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            //    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            //    c.IncludeXmlComments(xmlPath);
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,6 +127,17 @@ namespace Blog.UI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+
+            //// Enable middleware to serve generated Swagger as a JSON endpoint.
+            //app.UseSwagger();
+
+            //// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            //// specifying the Swagger JSON endpoint.
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Unified LMS V1");
+            //});
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
