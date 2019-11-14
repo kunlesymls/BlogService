@@ -6,6 +6,7 @@ using Blog.Models;
 using Blog.UI.Areas.Identity;
 using Blog.UI.Data;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Linq;
+using System.Net.Http;
 using UnifiedLMS.Infrastructure.Abstractions;
 using UnifiedLMS.WebApi.Mapper;
 
@@ -84,6 +87,20 @@ namespace Blog.UI
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+            // Server Side Blazor doesn't register HttpClient by default
+            if (!services.Any(x => x.ServiceType == typeof(HttpClient)))
+            {
+                // Setup HttpClient for server side in a client side compatible fashion
+                services.AddScoped<HttpClient>(s =>
+                {
+                    // Creating the URI helper needs to wait until the JS Runtime is initialized, so defer it.
+                    var uriHelper = s.GetRequiredService<NavigationManager>();
+                    return new HttpClient
+                    {
+                        BaseAddress = new Uri(uriHelper.BaseUri)
+                    };
+                });
+            }
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             //services.AddSwaggerGen(c =>

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Blog.ViewModels
 {
@@ -11,8 +8,7 @@ namespace Blog.ViewModels
         public string AppId { get; set; } = "101";
 
         [Display(Name = "Category Name")]
-        [Required]
-        [StringLength(2)]
-        public string Name { get; set; } 
+        [Required]      
+        public string Name { get; set; }
     }
 }

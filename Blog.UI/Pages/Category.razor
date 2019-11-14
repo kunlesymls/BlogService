@@ -1,0 +1,97 @@
+﻿@page "/category"
+@using Blog.ViewModels
+@using System.Net.Http
+@inject HttpClient Http
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (categories == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm class="new-added-form" Model="@CategoryO" OnValidSubmit="@AddCategory">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="form-group">
+                    <label asp-for="Faculty" class="control-label"></label>
+                    <input @bind="CategoryO.Name" class="form-control" placeholder="e.g AGR" />
+                    <ValidationMessage For="@(() => CategoryO.Name)" />
+                </div>
+                
+                <div class="col-md-12 form-group text-center mg-t-8">
+                    <button type="submit" class="text-uppercase btn-lg btn-primary  radius-30">Submit</button>
+                    <button type="reset" class="text-uppercase btn-lg btn-warning  radius-30">Reset</button>
+                </div>
+            </EditForm>
+
+        </div>
+        <div class="col-md-8">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var categ in categories)
+                    {
+                        <tr>
+                            <td>@categ.Name</td>
+                          
+                            <td><button class="btn btn-primary" @onclick="(() => EditFaculty(categ))">Edit</button></td>
+                            <td><button class="btn btn-danger" @onclick="(async () => await DeleteCateegory(categ.CategoryId))">Delete</button></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+}
+
+
+@code {
+    List<CategoryListVm> categories;
+    CategoryListVm CategoryO = new CategoryListVm();
+
+    protected override async Task OnInitializedAsync()
+    {
+        CategoryO = new CategoryListVm();
+        await ClearForm();
+    }
+
+    private async Task AddCategory()
+    {   
+        await Http.SendJsonAsync(HttpMethod.Post, "/api/Categories/", CategoryO);
+
+        CategoryO = new CategoryListVm();
+        await ClearForm();
+    }
+
+    protected async Task DeleteCateegory(int categoryId)
+    {  
+        await Http.SendJsonAsync(HttpMethod.Delete, $"/api/Categories/{categoryId}", categoryId);
+        await ClearForm();
+    }
+
+    protected void EditFaculty(CategoryListVm category)
+    {
+        CategoryO = category;
+    }
+
+    private async Task ClearForm()
+    {
+        categories = await Http.GetJsonAsync<List<CategoryListVm>>("/api/Categories/");
+        CategoryO.CategoryId = 0;
+        CategoryO.Name = "";
+        CategoryO.AppId = "";        
+        //StateHasChanged();
+    }
+}

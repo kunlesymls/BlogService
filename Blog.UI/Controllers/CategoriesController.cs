@@ -23,16 +23,16 @@ namespace Blog.UI.Controllers
         }
 
 
-        [HttpGet(Name = nameof(GetFaculty))]
-        public async Task<IActionResult> GetFaculty()
+        [HttpGet(Name = nameof(GetCategories))]
+        public async Task<IActionResult> GetCategories()
         {
             var model = await _repo.GetAll();
             var data = _mapper.Map<List<CategoryListVm>>(model);
             return new ObjectResult(data);
         }
 
-        [HttpGet("{id}", Name = nameof(GetFacultyById))]
-        public async Task<IActionResult> GetFacultyById([FromRoute] int id)
+        [HttpGet("{id}", Name = nameof(GetCategoryById))]
+        public async Task<IActionResult> GetCategoryById([FromRoute] int id)
         {
             var model = await _repo.GetById(id);
             var data = _mapper.Map<CategoryListVm>(model);
@@ -40,7 +40,7 @@ namespace Blog.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostFaculty([FromBody] CategoryListVm categoryListVm)
+        public async Task<IActionResult> PostCategory([FromBody] CategoryListVm categoryListVm)
         {
             categoryListVm.Name = categoryListVm.Name.ToUpper();
             var model = _mapper.Map<Category>(categoryListVm);
@@ -58,7 +58,7 @@ namespace Blog.UI.Controllers
                 var (success, message) = await _repo.SaveContext();
                 if (success)
                 {
-                    return CreatedAtAction(nameof(GetFaculty), new { id = model.CategoryId }, model);
+                    return CreatedAtAction(nameof(GetCategories), new { id = model.CategoryId }, model);
 
                 }
             }
@@ -66,7 +66,7 @@ namespace Blog.UI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFaculty([FromRoute] int id)
+        public async Task<IActionResult> DeleteCategory([FromRoute] int id)
         {
             var model = await _repo.GetById(id);
             await _repo.Delete(id);
