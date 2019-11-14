@@ -5,7 +5,7 @@ namespace Blog.ViewModels
     public class CategoryListVm
     {
         public int CategoryId { get; set; }
-        public string AppId { get; set; } = "101";
+        public string AppId { get; set; }
 
         [Display(Name = "Category Name")]
         [Required]      

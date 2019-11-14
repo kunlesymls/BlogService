@@ -8,15 +8,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blog.UI</title>
-    <base href="~/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-    <link href="css/site.css" rel="stylesheet" />
+
+    <!-- icons -->
+    <link href="~/css/fonts/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/fonts/material-design-icons/material-icon.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css" />
+    <link href="~/css/site.css" rel="stylesheet" />
+
+    <link href="https://cdn.syncfusion.com/ej2/17.3.27/fabric.css" rel="stylesheet" />
+    <link href="https://cdn.syncfusion.com/ej2/17.3.17/material.css" rel="stylesheet" />
+    <script src="https://cdn.syncfusion.com/ej2/17.3.17/dist/ej2.min.js"></script>
+    <script src="https://cdn.syncfusion.com/ej2/17.3.17/dist/ejs.interop.min.js"></script>
 </head>
 <body>
     <app>
         @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
     </app>
 
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="_framework/blazor.server.js"></script>
 </body>
 </html>

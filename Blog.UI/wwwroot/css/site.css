@@ -148,3 +148,8 @@ app {
         display: block;
     }
 }
+
+/* To change background color */
+.e-toast-container .e-toast {
+    background-color: navy;
+}
