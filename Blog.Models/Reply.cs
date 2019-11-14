@@ -9,7 +9,7 @@ namespace Blog.Models
         public int UserId { get; set; }
         public string Body { get; set; }
         public DateTime CreatedAt { get; set; }
-        public bool IsDisabled { get; set; }
+        public bool IsVisible { get; set; }
         public int InitialReplyId { get; set; }
         public Comment Comment { get; set; }
         public User User { get; set; }

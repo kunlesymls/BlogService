@@ -12,10 +12,11 @@ namespace Blog.Models
         public string Description { get; set; }
         public string Body { get; set; }
         public DateTime PostedAt { get; set; }
-        public bool IsPosted { get; set; }
+        public bool IsVisible { get; set; }
         public Author Author { get; set; }
         public ICollection<PostTag> PostTags { get; set; }
         public ICollection<PostCategory> PostCategories { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }
 
