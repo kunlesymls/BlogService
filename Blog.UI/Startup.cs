@@ -65,6 +65,7 @@ namespace Blog.UI
                    o.JsonSerializerOptions.DictionaryKeyPolicy = null;
                });
 
+            services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
@@ -103,6 +104,7 @@ namespace Blog.UI
                   name: "default",
                   pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllers();
+                endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
